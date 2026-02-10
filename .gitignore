@@ -1,0 +1,16 @@
+# Maven
+superheroes/target/
+!superheroes/.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+logs/
+*.log
+
+# IntelliJ IDEA
+superheroes/.idea/
+superheroes/*.iml
+superheroes/out/
+
+# OS files
+.DS_Store
+Thumbs.db
