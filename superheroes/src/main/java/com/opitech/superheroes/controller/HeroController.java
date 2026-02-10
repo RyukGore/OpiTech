@@ -21,7 +21,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-
+/**
+ * Controlador REST para la gestión de héroes.
+ * Proporciona endpoints para crear, leer, actualizar y eliminar héroes, así como para buscar héroes por nombre.
+ */
 @RestController
 @RequestMapping("/api/v1/heroes")
 @Tag(name = "Héroes", description = "API para la gestión de superhéroes")
@@ -33,6 +36,12 @@ public class HeroController {
         this.heroService = heroService;
     }
 
+    /**
+     * Endpoint para obtener una lista paginada de todos los héroes.
+     *
+     * @param pageable información de paginación y ordenamiento (página, tamaño, sort).
+     * @return Listado de héroes.
+     */
     @Operation(
             summary = "Obtener todos los héroes",
             description = "Retorna una lista paginada de todos los superhéroes del sistema. Permite ordenamiento y paginación.",
@@ -53,7 +62,12 @@ public class HeroController {
         return heroService.getAllHeroes(pageable);
     }
 
-
+    /**
+     * Endpoint para obtener la información de un héroe por su ID.
+     *
+     * @param id ID del héroe a buscar.
+     * @return Información del héroe encontrado.
+     */
     @Operation(
             summary = "Obtener héroe por ID",
             description = "Retorna el detalle de un héroe identificado por su ID.",
@@ -74,7 +88,12 @@ public class HeroController {
         return heroService.getHeroById(id);
     }
 
-
+    /**
+     * Endpoint para crear un nuevo héroe.
+     *
+     * @param requestDto DTO con la información del héroe a crear.
+     * @return Información del héroe creado.
+     */
     @Operation(
             summary = "Crear un nuevo héroe",
             description = "Crea un nuevo héroe con los datos proporcionados en el cuerpo de la petición.",
@@ -109,7 +128,13 @@ public class HeroController {
                 .body(created);
     }
 
-
+    /**
+     * Endpoint para actualizar un héroe existente.
+     *
+     * @param id         ID del héroe a actualizar.
+     * @param requestDto DTO con la información actualizada del héroe.
+     * @return Información del héroe actualizado.
+     */
     @Operation(
             summary = "Actualizar un héroe existente",
             description = "Actualiza los datos de un héroe identificado por su ID.",
@@ -139,7 +164,12 @@ public class HeroController {
         return heroService.updateHero(id, requestDto);
     }
 
-
+    /**
+     * Endpoint para eliminar un héroe por su ID.
+     *
+     * @param id ID del héroe a eliminar.
+     * @return Respuesta sin contenido si la eliminación fue exitosa.
+     */
     @Operation(
             summary = "Eliminar un héroe",
             description = "Elimina un héroe identificado por su ID.",
@@ -163,7 +193,13 @@ public class HeroController {
         return ResponseEntity.noContent().build();
     }
 
-
+    /**
+     * Endpoint para buscar héroes por nombre.
+     *
+     * @param name     Texto a buscar dentro del nombre de los héroes (búsqueda parcial, case-insensitive).
+     * @param pageable información de paginación y ordenamiento (página, tamaño, sort).
+     * @return Listado de héroes que coinciden con la búsqueda.
+     */
     @Operation(
             summary = "Buscar héroes por nombre",
             description = "Busca héroes cuyo nombre contenga el texto indicado. Retorna una lista paginada.",

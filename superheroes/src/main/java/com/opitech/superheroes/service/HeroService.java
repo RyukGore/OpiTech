@@ -11,6 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+/**
+ * Servicio para la gestión de héroes.
+ */
 @Service
 public class HeroService {
 
@@ -20,11 +23,25 @@ public class HeroService {
         this.heroRepository = heroRepository;
     }
 
+    /**
+     * Retorna una página de héroes, aplicando paginación y ordenamiento.
+     *
+     * @param pageable información de paginación y ordenamiento (página, tamaño, sort).
+     * @return página de héroes ya mapeados a DTO.
+     */
     public Page<HeroResponseDto> getAllHeroes(Pageable pageable) {
         Page<Hero> page = heroRepository.findAll(pageable);
         return page.map(HeroMapper::toResponseDto);
     }
 
+    /**
+     * Retorna una página de héroes cuyo nombre contiene el texto de búsqueda, ignorando mayúsculas y espacios.
+     * El parámetro de búsqueda debe tener al menos 2 caracteres no vacios.
+     *
+     * @param searchName texto a buscar dentro del nombre de los héroes.
+     * @param pageable   información de paginación y ordenamiento.
+     * @return Información de héroes que coinciden con la búsqueda.
+     */
     public Page<HeroResponseDto> searchHeroesByName(String searchName, Pageable pageable) {
         if (searchName == null || searchName.trim().length() < 2) {
             throw new IllegalArgumentException("Parameter 'name' must have at least 2 non-blank characters");
@@ -36,12 +53,26 @@ public class HeroService {
         return page.map(HeroMapper::toResponseDto);
     }
 
+    /**
+     * Retorna el héroe identificado por su ID.
+     *
+     * @param id ID del héroe a buscar.
+     * @return Información del héroe.
+     * @throws HeroNotFoundException si no se encuentra el héroe con el ID proporcionado.
+     */
     public HeroResponseDto getHeroById(Long id) {
         Hero hero = heroRepository.findById(id)
                 .orElseThrow(() -> new HeroNotFoundException(id));
         return HeroMapper.toResponseDto(hero);
     }
 
+    /**
+     * Crea un nuevo héroe.
+     *
+     * @param requestDto DTO con la información del héroe a crear.
+     * @return DTO con la información del héroe creado.
+     * @throws HeroAlreadyExistsException si ya existe un héroe con el mismo nombre.
+     */
     public HeroResponseDto createHero(HeroRequestDto requestDto) {
         String name = requestDto.getName() != null
                 ? requestDto.getName().trim()
@@ -58,6 +89,15 @@ public class HeroService {
         return HeroMapper.toResponseDto(saved);
     }
 
+    /**
+     * Actualiza un héroe existente.
+     *
+     * @param id         ID del héroe a actualizar.
+     * @param requestDto DTO con la información actualizada del héroe.
+     * @return DTO con la información del héroe actualizado.
+     * @throws HeroNotFoundException      si no se encuentra el héroe con el ID proporcionado.
+     * @throws HeroAlreadyExistsException si ya existe otro héroe con el mismo nombre.
+     */
     public HeroResponseDto updateHero(Long id, HeroRequestDto requestDto) {
         // Buscar el héroe existente o lanzar 404
         Hero existing = heroRepository.findById(id)
@@ -81,6 +121,12 @@ public class HeroService {
         return HeroMapper.toResponseDto(saved);
     }
 
+    /**
+     * Elimina un héroe existente.
+     *
+     * @param id ID del héroe a eliminar.
+     * @throws HeroNotFoundException si no se encuentra el héroe con el ID proporcionado.
+     */
     public void deleteHero(Long id) {
         Hero existing = heroRepository.findById(id)
                 .orElseThrow(() -> new HeroNotFoundException(id));

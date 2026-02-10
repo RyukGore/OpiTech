@@ -10,6 +10,12 @@ public class HeroMapper {
         // Utility class
     }
 
+    /**
+     * Mapea un HeroRequestDto a una entidad Hero.
+     *
+     * @param dto DTO de solicitud de héroe.
+     * @return Entidad Hero mapeada.
+     */
     public static Hero toEntity(HeroRequestDto dto) {
         Hero hero = new Hero();
         hero.setName(dto.getName() != null ? dto.getName().trim() : null);
@@ -20,6 +26,12 @@ public class HeroMapper {
         return hero;
     }
 
+    /**
+     * Actualiza una entidad Hero existente con los datos de un HeroRequestDto.
+     *
+     * @param dto  DTO de solicitud de héroe con los datos actualizados.
+     * @param hero Entidad Hero a actualizar.
+     */
     public static void updateEntityFromDto(HeroRequestDto dto, Hero hero) {
         hero.setName(dto.getName() != null ? dto.getName().trim() : null);
         hero.setAlias(dto.getAlias());
@@ -30,6 +42,12 @@ public class HeroMapper {
         }
     }
 
+    /**
+     * Mapea una entidad Hero a un HeroResponseDto.
+     *
+     * @param hero Entidad Hero.
+     * @return DTO de respuesta de héroe mapeado.
+     */
     public static HeroResponseDto toResponseDto(Hero hero) {
         HeroResponseDto dto = new HeroResponseDto();
         dto.setId(hero.getId());
