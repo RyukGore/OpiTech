@@ -75,8 +75,7 @@ La aplicación quedará disponible en:
 - Click derecho sobre el paquete `com.opitech.superheroes` → `Run 'Tests in ...'`
 - O sobre clases concretas, por ejemplo:
   - `HeroServiceTest`
-  - `HeroControllerTest`
-
+  
 Los tests de servicio utilizan **Mockito** para mockear el repositorio y validar:
 
 - Creación de héroes (incluyendo conflictos por nombre duplicado).
